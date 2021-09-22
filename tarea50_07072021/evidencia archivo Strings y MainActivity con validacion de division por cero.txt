@@ -1,0 +1,77 @@
+Strings.xml
+
+<resources>
+    <string name="app_name">segundaApp</string>
+    <string name="editnumero1">Ingresar el primer valor</string>
+    <string name="editnumero2">Ingresar el segundo valor</string>
+    <string name="btsumar">+</string>
+    <string name="btrestar">-</string>
+    <string name="btdividir">/</string>
+    <string name="btmultiplicar">*</string>
+    <string name="tvresultado">El resultado es:</string>
+
+
+</resources>
+
+
+
+MainActivity.java
+
+package com.example.segundaapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+
+    private EditText ednum1,ednum2;
+    private TextView tvr;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+                ednum1=findViewById(R.id.editnumero1);
+                ednum2=findViewById(R.id.editnumero2);
+                tvr=findViewById(R.id.tvresultado);
+    }
+
+    public void sumar(View v){
+        int valor1=Integer.parseInt(ednum1.getText().toString());
+        int valor2=Integer.parseInt(ednum2.getText().toString());
+        int suma=valor1+valor2;
+        tvr.setText("El resultado de la suma es: "+suma);
+
+    }
+    public void restar(View v){
+        int valor1=Integer.parseInt(ednum1.getText().toString());
+        int valor2=Integer.parseInt(ednum2.getText().toString());
+        int resta=valor1-valor2;
+        tvr.setText("El resultado de la resta es: "+resta);
+    }
+
+    public void dividir(View v){
+        int valor1=Integer.parseInt(ednum1.getText().toString());
+        int valor2=Integer.parseInt(ednum2.getText().toString());
+
+        if (valor1!=0 && valor2!=0){
+            int divide=valor1/valor2;
+            tvr.setText("El resultado de la división es: "+ divide);
+        }else {
+            tvr.setText("No es posible dividir por cero, ingrese otro numero por favor");
+
+        }
+    }
+
+    public void multiplicar(View v){
+        int valor1=Integer.parseInt(ednum1.getText().toString());
+        int valor2=Integer.parseInt(ednum2.getText().toString());
+        int multiplica=valor1*valor2;
+        tvr.setText("El resultado de la multiplicación es: "+multiplica);
+    }
+}

@@ -1,0 +1,2 @@
+DOCUMENTACIÓN
+-Se continua con mismo ejercicio anterior con checkbox y switch validando division por cero a quienes no lo hayan terminado.

@@ -1,0 +1,91 @@
+************strings******************
+
+<resources>
+    <string name="app_name">Formulario_registro</string>
+    <string name="tvtitulo">Formulario de Registro</string>
+    <string name="ednombre">Ingrese su nombre</string>
+    <string name="edapellido">Ingrese su apellido</string>
+    <string name="edemail">Ingrese su e-mail</string>
+    <string name="edtelefono">ingrese n° teléfono</string>
+    <string name="btenviar">Enviar</string>
+    <string name="tvtitulo2">Formulario de Registro</string>
+    <string name="tvdatos">Los datos ingresados son:</string>
+    <string name="tvnombre">nombre</string>
+    <string name="tvapellido">apellido</string>
+    <string name="tvemail">e-mail</string>
+    <string name="tvtelefono">telefono</string>
+</resources>
+
+
+*************MainActivity******************
+
+package com.example.formulario_registro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+    private EditText editnombre;
+    private EditText editapellido;
+    private EditText editemail;
+    private EditText edittelefono;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        editnombre=findViewById(R.id.ednombre);
+        editapellido=findViewById(R.id.edapellido);
+        editemail=findViewById(R.id.edemail);
+        edittelefono=findViewById(R.id.edtelefono);
+    }
+
+    public void enviar(View v){
+        Intent enviar= new Intent (this,Formulario_registro_2.class);
+        enviar.putExtra("nombre",editnombre.getText().toString());
+        enviar.putExtra("apellido",editapellido.getText().toString());
+        enviar.putExtra("email",editemail.getText().toString());
+        enviar.putExtra("telefono",edittelefono.getText().toString());
+        startActivity(enviar);
+    }
+}
+
+
+**********segunda Activity***********************
+package com.example.formulario_registro;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class Formulario_registro_2 extends AppCompatActivity {
+
+    private TextView tv1;
+    private TextView tv2;
+    private TextView tv3;
+    private TextView tv4;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_formulario_registro2);
+        tv1=findViewById(R.id.tvnombre);
+        tv2=findViewById(R.id.tvapellido);
+        tv3=findViewById(R.id.tvemail);
+        tv4=findViewById(R.id.tvtelefono);
+
+        String nombre=getIntent().getStringExtra("nombre");
+        tv1.setText(""+nombre);
+        String apellido=getIntent().getStringExtra("apellido");
+        tv2.setText(""+apellido);
+        String email=getIntent().getStringExtra("email");
+        tv3.setText(""+email);
+        String telefono=getIntent().getStringExtra("telefono");
+        tv4.setText(""+telefono);
+    }
+}

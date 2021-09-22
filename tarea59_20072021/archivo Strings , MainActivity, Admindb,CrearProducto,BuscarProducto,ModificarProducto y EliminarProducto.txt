@@ -1,0 +1,312 @@
+************strings******************
+
+<resources>
+    <string name="app_name">productoDistintaActivity</string>
+    <string name="crearProducto">Ir a Crear Producto</string>
+    <string name="buscarProducto">Ir a Buscar Producto</string>
+    <string name="eliminarProducto">Ir a Eliminar Producto</string>
+    <string name="modificarProducto">Ir a Modificar Producto</string>
+    <string name="crearProducto2">Crear Producto</string>
+    <string name="buscarProducto2">Buscar Producto</string>
+    <string name="eliminarProducto2">Eliminar Producto</string>
+    <string name="modificarProducto2">Modificar Producto</string>
+    <string name="codigo">Ingresar código de Producto</string>
+    <string name="nombre">Ingresar nombre de Producto</string>
+    <string name="precio">Ingresar precio de Producto</string>
+    <string name="botonAnterior1">Anterior</string>
+    <string name="botonAnterior2">Anterior</string>
+    <string name="botonAnterior3">Anterior</string>
+    <string name="botonAnterior4">Anterior</string>
+</resources>
+
+*************MainActivity******************
+
+package com.example.productodistintaactivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+
+public class MainActivity extends AppCompatActivity {
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+    }
+
+    public void irCrear(View v){
+        Intent siguiente=new Intent(this,CrearProducto.class);
+        startActivity(siguiente);
+    }
+    public void irBuscar(View v){
+        Intent siguiente=new Intent(this,BuscarProducto.class);
+        startActivity(siguiente);
+    }
+    public void irModificar(View v){
+        Intent siguiente=new Intent(this,ModificarProducto.class);
+        startActivity(siguiente);
+    }
+    public void irEliminar(View v){
+        Intent siguiente=new Intent(this,EliminarProducto.class);
+        startActivity(siguiente);
+    }
+
+}
+**********Admindb.java***********************
+package com.example.productodistintaactivity;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
+
+public class Admindb extends SQLiteOpenHelper {
+    public Admindb(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("create table producto(codigo int primary key,nombre varchar,precio int)");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+}
+
+
+**********CrearProducto.java***********************
+package com.example.productodistintaactivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class CrearProducto extends AppCompatActivity {
+    private EditText edcodigo, ednombre,edprecio;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_crear_producto);
+
+        edcodigo=findViewById(R.id.codigo);
+        ednombre=findViewById(R.id.nombre);
+        edprecio=findViewById(R.id.precio);
+    }
+    public void Anterior(View v){
+        Intent anterior=new Intent(this,MainActivity.class);
+        startActivity(anterior);
+    }
+    public void crearProducto(View v){
+
+        Admindb admin= new Admindb(this,"Productos",null,1);
+        SQLiteDatabase base=admin.getWritableDatabase();
+
+        String codigo=edcodigo.getText().toString();
+        String nombre=ednombre.getText().toString();
+        String precio=edprecio.getText().toString();
+
+        if (!codigo.isEmpty()&&!nombre.isEmpty()&&!precio.isEmpty()){
+            ContentValues crear=new ContentValues();
+            crear.put("codigo",codigo);
+            crear.put("nombre",nombre);
+            crear.put("precio",precio);
+
+            base.insert("producto",null,crear);
+            base.close();
+            edcodigo.setText("");
+            ednombre.setText("");
+            edprecio.setText("");
+            Toast.makeText(this,"Registro creado",Toast.LENGTH_LONG).show();
+
+        }else{
+            Toast.makeText(this,"Debe completar todos los campos",Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+}
+
+
+**********BuscarProducto.java***********************
+package com.example.productodistintaactivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class BuscarProducto extends AppCompatActivity {
+    private EditText edcodigo, ednombre,edprecio;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_buscar_producto);
+
+        edcodigo=findViewById(R.id.codigo);
+        ednombre=findViewById(R.id.nombre);
+        edprecio=findViewById(R.id.precio);
+    }
+
+    public void Anterior(View v){
+        Intent anterior=new Intent(this,MainActivity.class);
+        startActivity(anterior);
+    }
+
+    public void buscarProducto(View v){
+        Admindb admin= new Admindb(this,"Productos",null,1);
+        SQLiteDatabase base=admin.getWritableDatabase();
+
+        String codigo=edcodigo.getText().toString();
+
+        if (!codigo.isEmpty()){
+            Cursor fila=base.rawQuery("select nombre,precio from producto where codigo="+codigo,null);
+            if (fila.moveToFirst()){
+                ednombre.setText(fila.getString(0));
+                edprecio.setText(fila.getString(1));
+                base.close();
+            }else{
+                Toast.makeText(this,"El producto no existe",Toast.LENGTH_LONG).show();
+            }
+
+        }else{
+            Toast.makeText(this,"Debe ingresar un código de producto",Toast.LENGTH_LONG).show();
+        }
+
+    }
+}
+
+
+**********ModificarProducto.java***********************
+package com.example.productodistintaactivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class ModificarProducto extends AppCompatActivity {
+    private EditText edcodigo, ednombre,edprecio;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_modificar_producto);
+
+        edcodigo=findViewById(R.id.codigo);
+        ednombre=findViewById(R.id.nombre);
+        edprecio=findViewById(R.id.precio);
+    }
+    public void Anterior(View v){
+        Intent anterior=new Intent(this,MainActivity.class);
+        startActivity(anterior);
+    }
+
+    public void modificarProducto(View v){
+        Admindb admin= new Admindb(this,"Productos",null,1);
+        SQLiteDatabase base=admin.getWritableDatabase();
+
+        String codigo=edcodigo.getText().toString();
+        String nombre=ednombre.getText().toString();
+        String precio=edprecio.getText().toString();
+
+        if (!codigo.isEmpty()&&!nombre.isEmpty()&&!precio.isEmpty()){
+
+            ContentValues registro=new ContentValues();
+            registro.put("codigo",codigo);
+            registro.put("nombre",nombre);
+            registro.put("precio",precio);
+
+            base.update("producto",registro,"codigo" +codigo,null);
+            base.close();
+            edcodigo.setText("");
+            ednombre.setText("");
+            edprecio.setText("");
+            Toast.makeText(this,"Registro modificado",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this,"Debes completar los campos",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+}
+
+
+**********EliminarProducto.java***********************
+
+package com.example.productodistintaactivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class EliminarProducto extends AppCompatActivity {
+    private EditText edcodigo, ednombre,edprecio;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_eliminar_producto);
+
+        edcodigo=findViewById(R.id.codigo);
+        ednombre=findViewById(R.id.nombre);
+        edprecio=findViewById(R.id.precio);
+    }
+    public void Anterior(View v){
+        Intent anterior=new Intent(this,MainActivity.class);
+        startActivity(anterior);
+    }
+    public void eliminarProducto(View v){
+        Admindb admin= new Admindb(this,"Productos",null,1);
+        SQLiteDatabase base=admin.getWritableDatabase();
+
+        String codigo=edcodigo.getText().toString();
+
+        if (!codigo.isEmpty()){
+            base.delete("producto","codigo=" +codigo,null);
+            base.close();
+            edcodigo.setText("");
+            ednombre.setText("");
+            edprecio.setText("");
+            Toast.makeText(this,"El registro fue eliminado",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this,"Debe ingresar un código",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+
+}
+

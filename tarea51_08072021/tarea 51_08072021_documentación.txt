@@ -1,0 +1,2 @@
+DOCUMENTACIÓN
+-Se realiza  mismo ejercicio anterior con checkbox y switch validando division por cero.

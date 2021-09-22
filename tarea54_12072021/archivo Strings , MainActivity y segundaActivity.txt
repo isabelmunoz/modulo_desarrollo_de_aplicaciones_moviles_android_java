@@ -1,0 +1,112 @@
+************strings******************
+
+<resources>
+    <string name="app_name">PasarDeUnaActivityAOtra</string>
+    <string name="textView">Calculadora básica</string>
+    <string name="button">Siguiente</string>
+    <string name="editnombre">Ingrese un nombre</string>
+    <string name="tvnombre">Nombre</string>
+    <string name="textView2">Calculadora básica</string>
+    <string name="button2">Volver</string>
+    <string name="editnumero1">Ingresar el primer valor</string>
+    <string name="editnumero2">Ingresar el segundo valor</string>
+    <string name="btsumar">+</string>
+    <string name="btrestar">-</string>
+    <string name="btdividir">/</string>
+    <string name="btmultiplicar">*</string>
+    <string name="tvresultado">El resultado de la suma es:</string>
+
+</resources>
+
+
+*************MainActivity******************
+
+package com.example.pasardeunaactivityaotra;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+    private EditText editnombre;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        editnombre=findViewById(R.id.editnombre);
+    }
+
+    public void siguiente(View v){
+        Intent siguiente= new Intent (this,PasarAOtra.class);
+        siguiente.putExtra("nombre",editnombre.getText().toString());
+        startActivity(siguiente);
+    }
+}
+
+
+**********segunda Activity***********************
+package com.example.pasardeunaactivityaotra;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class PasarAOtra extends AppCompatActivity {
+
+    private EditText ednum1,ednum2;
+    private TextView tvr;
+    private TextView tv1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pasar_aotra);
+        ednum1=findViewById(R.id.editnumero1);
+        ednum2=findViewById(R.id.editnumero2);
+        tvr=findViewById(R.id.tvresultado);
+        tv1=findViewById(R.id.tvnombre);
+
+        String nombre=getIntent().getStringExtra("nombre");
+        tv1.setText(""+nombre);
+    }
+
+    public void volver(View v){
+        Intent volver=new Intent(this,MainActivity.class);
+        startActivity(volver);
+    }
+
+    public void sumar(View v){
+        int valor1=Integer.parseInt(ednum1.getText().toString());
+        int valor2=Integer.parseInt(ednum2.getText().toString());
+        int suma=valor1+valor2;
+        tvr.setText("El resultado de la suma es: "+suma);
+
+    }
+    public void restar(View v){
+        int valor1=Integer.parseInt(ednum1.getText().toString());
+        int valor2=Integer.parseInt(ednum2.getText().toString());
+        int resta=valor1-valor2;
+        tvr.setText("El resultado de la resta es: "+resta);
+    }
+
+    public void dividir(View v){
+        int valor1=Integer.parseInt(ednum1.getText().toString());
+        int valor2=Integer.parseInt(ednum2.getText().toString());
+        int divide=valor1/valor2;
+        tvr.setText("El resultado de la división es: "+divide);
+
+    }
+    public void multiplicar(View v){
+        int valor1=Integer.parseInt(ednum1.getText().toString());
+        int valor2=Integer.parseInt(ednum2.getText().toString());
+        int multiplica=valor1*valor2;
+        tvr.setText("El resultado de la multiplicación es: "+multiplica);
+    }
+}

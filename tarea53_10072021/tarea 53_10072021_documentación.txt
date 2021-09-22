@@ -1,0 +1,2 @@
+DOCUMENTACIÓN
+-Se realiza  mismo ejercicio anterior con spinner validando division por cero.

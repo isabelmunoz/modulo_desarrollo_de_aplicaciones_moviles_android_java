@@ -1,0 +1,70 @@
+************strings******************
+
+<resources>
+    <string name="app_name">Spinner</string>
+    <string name="editnumero1">Ingrese primer número</string>
+    <string name="editnumero2">Ingrese segundo número</string>
+    <string name="btoperar">operar</string>
+    <string name="tvresultado">El resultado es:</string>
+
+</resources>
+
+
+*************MainActivity******************
+
+package com.example.spinner;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText ed1,ed2;
+    private TextView tv1;
+    private Spinner sp1;
+    private String[] op={"sumar","restar","multiplicar","dividir"};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ed1=findViewById(R.id.editnumero1);
+        ed2=findViewById(R.id.editnumero2);
+        tv1=findViewById(R.id.tvresultado);
+        sp1=findViewById(R.id.spinner);
+
+        ArrayAdapter<String> adaptador=new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,op);
+        sp1.setAdapter(adaptador);
+    }
+
+    public void operar(View v){
+        int valor1=Integer.parseInt(ed1.getText().toString());
+        int valor2=Integer.parseInt(ed2.getText().toString());
+        String operacion=sp1.getSelectedItem().toString();
+
+        if (operacion.equals("sumar")){
+            int suma=valor1+valor2;
+            tv1.setText("El resultado de la suma es :"+suma);
+        } else if(operacion.equals("restar")){
+            int resta=valor1-valor2;
+            tv1.setText("El resultado de la resta es :"+resta);
+        }else if(operacion.equals("dividir")){
+            if (valor1!=0 && valor2!=0){
+                int divide=valor1/valor2;
+                tv1.setText("El resultado de la división es: "+ divide);
+            }else {
+                tv1.setText("No es posible dividir por cero, ingrese otro numero por favor");
+            }
+        }else if(operacion.equals("multiplicar")){
+            int multiplicar=valor1*valor2;
+            tv1.setText("El resultado de la multiplicación es :"+multiplicar);
+        }
+    }
+}

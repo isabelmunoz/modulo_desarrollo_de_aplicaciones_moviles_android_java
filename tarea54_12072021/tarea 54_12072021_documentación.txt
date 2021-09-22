@@ -1,0 +1,2 @@
+DOCUMENTACIÓN
+-Se realiza  ejercicio para pasar de una activity a otra y enviar datos.

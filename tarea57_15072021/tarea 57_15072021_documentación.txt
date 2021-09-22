@@ -1,0 +1,2 @@
+DOCUMENTACIÓN
+-Se realiza  ejercicio anterior de creacion de base de datos para un producto agregando método buscar.

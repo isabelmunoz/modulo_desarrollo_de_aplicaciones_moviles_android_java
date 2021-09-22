@@ -1,0 +1,72 @@
+***************Strings*************
+<resources>
+    <string name="app_name">cuartaAppCheckbox</string>
+    <string name="editnumero1">Ingrese primer número</string>
+    <string name="editnumero2">Ingrese segundo número</string>
+    <string name="cksumar">sumar</string>
+    <string name="ckrestar">restar</string>
+    <string name="ckdividir">dividir</string>
+    <string name="ckmultiplicar">multiplicar</string>
+    <string name="btoperar">operar</string>
+    <string name="tvresultado">El resultado es:</string>
+</resources>
+
+
+********************MainActivity*******************************
+
+package com.example.cuartaappcheckbox;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+
+
+public class MainActivity extends AppCompatActivity {
+    private EditText ed1,ed2;
+    private TextView tv1;
+    private CheckBox cksuma,ckresta,ckdivide,ckmultiplica;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ed1=findViewById(R.id.editnumero1);
+        ed2=findViewById(R.id.editnumero2);
+        tv1=findViewById(R.id.tvresultado);
+        cksuma=findViewById(R.id.cksumar);
+        ckresta=findViewById(R.id.ckrestar);
+        ckdivide=findViewById(R.id.ckdividir);
+        ckmultiplica=findViewById(R.id.ckmultiplicar);
+
+    }
+
+    public void operar(View v){
+        int valor1=Integer.parseInt(ed1.getText().toString());
+        int valor2=Integer.parseInt(ed2.getText().toString());
+
+        if (cksuma.isChecked()){
+            int suma=valor1+valor2;
+            tv1.setText("El resultado es :"+suma);
+        } else if(ckresta.isChecked()){
+            int resta=valor1-valor2;
+            tv1.setText("El resultado es :"+resta);
+        }else if(ckdivide.isChecked()){
+            if (valor1!=0 && valor2!=0){
+                int divide=valor1/valor2;
+                tv1.setText("El resultado de la división es: "+ divide);
+            }else {
+                tv1.setText("No es posible dividir por cero, ingrese otro numero por favor");
+
+            }
+        }else if(ckmultiplica.isChecked()){
+            int multiplicar=valor1*valor2;
+            tv1.setText("El resultado es :"+multiplicar);
+        }
+    }
+}

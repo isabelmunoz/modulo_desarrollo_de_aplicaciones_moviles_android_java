@@ -1,0 +1,3 @@
+DOCUMENTACIÓN
+- Se realiza ejercicio de validar division por cero en ejercicio anterior.
+-Se realiza  mismo ejercicio anterior con radiobutton.

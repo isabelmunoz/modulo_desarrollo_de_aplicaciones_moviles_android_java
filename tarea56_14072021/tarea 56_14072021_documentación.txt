@@ -1,0 +1,2 @@
+DOCUMENTACIÓN
+-Se realiza  ejercicio creacion de base de datos para un producto con método crear.
